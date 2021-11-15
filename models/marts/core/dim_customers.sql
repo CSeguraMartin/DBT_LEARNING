@@ -14,7 +14,6 @@ customer_orders as (
 
     select
         customer_id,
-
         min(order_date) as first_order_date,
         max(order_date) as most_recent_order_date,
         count(order_id) as number_of_orders
@@ -22,6 +21,10 @@ customer_orders as (
     from orders
 
     group by 1
+
+), f_orders as (
+
+    select customer_id,sum(amount) amount from {{ ref('fct_orders')}} group by customer_id
 
 ),
 
@@ -39,6 +42,13 @@ final as (
 
     left join customer_orders using (customer_id)
 
+), final2 as (
+
+    select f1.*,coalesce(f_o.amount ,0) as amount
+    from final f1
+    left join f_orders f_o 
+    using (customer_id)
+
 )
 
-select * from final
+select * from final2
