@@ -24,7 +24,7 @@ customer_orders as (
 
 ), f_orders as (
 
-    select customer_id,sum(amount) amount from {{ ref('fct_orders')}} group by customer_id
+    select customer_id,sum(lifetime_value) lifetime_value from {{ ref('fct_orders')}} group by customer_id
 
 ),
 
@@ -44,7 +44,7 @@ final as (
 
 ), final2 as (
 
-    select f1.*,coalesce(f_o.amount ,0) as amount
+    select f1.*,coalesce(f_o.lifetime_value ,0) as lifetime_value
     from final f1
     left join f_orders f_o 
     using (customer_id)

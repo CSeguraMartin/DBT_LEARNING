@@ -9,7 +9,7 @@ with orders as (
 ), final as (
 select o.order_id,
 o.customer_id,
-sum(p.amount) amount from orders o 
+sum(p.amount) lifetime_value from orders o 
 left join payments p
 using (order_id)
 group by o.order_id,
