@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: stg_payments
+    description: Staged payments data from our stripe app.
+    columns: 
+      - name: order_id
+        description: "{{ doc('order_id') }}"
+        tests:
+          - unique
+          - not_null

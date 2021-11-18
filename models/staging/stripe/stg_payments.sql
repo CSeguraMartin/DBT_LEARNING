@@ -1,3 +1,4 @@
 select orderid as order_id ,
-amount as amount
+sum(amount) as amount
 from raw.stripe.payment
+group by 1
